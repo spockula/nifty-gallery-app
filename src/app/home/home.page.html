@@ -1,20 +1,48 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
+<div class="container" style="max-height: 100%;">
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <div class="row" >
+    <ion-header translucent>
+      <ion-toolbar class="col-12 col-lg-12  pb-5 p-sm-5 p-lg-0 hero-col">
+        <ion-title style="text-align: center;">
+          <img src="./assets/img/logo.png" style="width: 10%; margin-right: 2%; margin-left: 0px;"/> Home
+        </ion-title>
+      </ion-toolbar>
+      <ion-searchbar #mySearchbar name="searchTerm" placeholder="Search via title or artist" animated
+    (ionChange)="filterList($event)" showCancelButton="focus"></ion-searchbar>
+    <ion-list *ngIf="this.isDataAvail === true">
+        <ion-row  *ngFor="let item of this.searchResult ">
+            <!-- <ion-col size="8" style="margin-left: 35px; "><h4> <b> {{item.title}} </b> </h4> </ion-col> -->
+            <ion-card (click)="presentAlertMultipleButtons(item.tokenId, item.symbol)">
+              <img src="{{item.image.media}}" />
+              <ion-card-header>
+                <ion-card-subtitle>Painting</ion-card-subtitle>
+                <ion-card-title>{{item.symbol}} </ion-card-title>
+              </ion-card-header>
+              <ion-card-content>
+                Founded in 1829 on an isthmus between Lake Monona and Lake Mendota, Madison was named the capital of the Wisconsin Territory in 1836.
+              </ion-card-content>
+            </ion-card>
+        </ion-row>
+      </ion-list>
+    </ion-header>
 
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+    <div class="col-12 col-lg-12 d-flex  pb-5 p-sm-5 p-lg-0 hero-col" style="margin-top: 10%;" *ngIf="this.isDataAvail === !true">
+  
+      <ion-content fullscreen >
+        <ion-card  *ngFor="let item of this.assets let i=index" (click)="presentAlertMultipleButtons(item.tokenId, item.symbol)">
+          <img src="{{item.image.media}}" />
+          <ion-card-header>
+            <ion-card-subtitle>Painting</ion-card-subtitle>
+            <ion-card-title>{{item.symbol}} </ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            Founded in 1829 on an isthmus between Lake Monona and Lake Mendota, Madison was named the capital of the Wisconsin Territory in 1836.
+          </ion-card-content>
+        </ion-card>
+      </ion-content>
+      
+    </div>
   </div>
-</ion-content>
+  
+  
+</div>

@@ -4,26 +4,24 @@ import { UtilityService } from '../services/utility.service';
 
 @Component({
   selector: 'app-home',
-  templateUrl: 'home.page.html',
-  styleUrls: ['home.page.scss'],
+  templateUrl: './home.component.html',
+  styleUrls: ['./home.component.scss'],
 })
-export class HomePage implements OnInit {
+export class HomeComponent implements OnInit {
   listOfArtworks: any[];
   isDataAvail: boolean;
   searchResult: any;
   images: any;
   error: any;
   assets: any;
-  address: string;
 
-  constructor(public alertController: AlertController, public utilityService: UtilityService) {}
+  constructor(public alertController: AlertController, public utilityService: UtilityService) { }
+
   ngOnInit() {
-    this.getAssets();
     this.assets = [];
     this.isDataAvail = false;
-    this.address = localStorage.getItem('address');
+    this.getAssets();
   }
-
 
   async presentAlertMultipleButtons(tokenId, title) {
     const alert = await this.alertController.create({
@@ -43,7 +41,7 @@ export class HomePage implements OnInit {
           text: 'Remove',
           handler: () => {
             console.log('Confirm Okay');
-            this.utilityService.sendEmail(title, tokenId);
+            // this.shareViaEmail(tokenId, title);
           }
         }
       ]
@@ -70,12 +68,10 @@ export class HomePage implements OnInit {
     getAssets() {
       this.utilityService.getAllAssets().subscribe((data: any) => {
         const assets = data.data.items;
-        console.log('this is assets', assets);
         assets.forEach(element => {
           // eslint-disable-next-line max-len
           // if (element.media.length > 0 && element.hasActiveAuction === true &&  element.issuer === '0x138eA87255926B6FA5F428079F5266A6693B8738' ) {
-          // eslint-disable-next-line max-len
-          if (element.media.length > 0 && element.hasActiveAuction === true &&  element.issuer.toLowerCase() === this.address.toLowerCase() ) {
+          if (element.media.length > 0 && element.hasActiveAuction === true ) {
             if (element.category === 'artwork') {
               const image = element.media.filter(x => x.mediaKey ==='image')[0];
               const mp4 = element.media.filter(x => x.mediaKey ==='mp4')[0];
